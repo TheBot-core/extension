@@ -80,7 +80,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 			var thee_provider = new TreeProvider();
 
-			thee_provider.functions.push(new TreeFunction("Renew session", "thebot.renew"));
 			thee_provider.functions.push(new TreeFunction("Logout", "thebot.logout"));
 			thee_provider.functions.push(new TreeFunction("Reconnect", "thebot.reconnect"));
 			thee_provider.functions.push(new TreeFunction("Set username", "thebot.username"));
@@ -130,16 +129,6 @@ export function activate(context: vscode.ExtensionContext) {
 						break;
 				}
 			});
-
-			context.subscriptions.push(vscode.commands.registerCommand("thebot.renew", () => {
-				interface ApiIde {
-					ide: string
-				}
-
-				sock.socket_call("api/spawn-ide", {}).then((ide: Object) => {
-					vscode.window.showInformationMessage("Successfully renewed ide session for " + (ide as ApiIde).ide + "?folder=/root/workspace!");
-				});
-			}));
 
 			context.subscriptions.push(vscode.commands.registerCommand("thebot.logout", () => {
 				vscode.workspace.getConfiguration().update("thebot.token", undefined);
