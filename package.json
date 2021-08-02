@@ -1,0 +1,117 @@
+{
+  "name": "thebot",
+  "displayName": "thebot",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "glowman554",
+  "engines": {
+    "vscode": "^1.56.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "category": "TheBot",
+        "command": "thebot.renew",
+        "title": "Renew session"
+      },
+      {
+        "category": "TheBot",
+        "command": "thebot.logout",
+        "title": "Logout"
+      },
+      {
+        "category": "TheBot",
+        "command": "thebot.reconnect",
+        "title": "Reconnect websocket"
+      },
+      {
+        "category": "TheBot",
+        "command": "thebot.username",
+        "title": "Set username"
+      },
+      {
+        "category": "TheBot",
+        "command": "thebot.uptime",
+        "title": "Uptime"
+      },
+      {
+        "category": "TheBot",
+        "command": "thebot.send_cmd",
+        "title": "Send command"
+      }
+    ],
+    "views": {
+      "side_panel": [
+        {
+          "id": "thebot.control",
+          "name": "control's!"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "icon": "media/dep.svg",
+          "id": "side_panel",
+          "title": "TheBot"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "TheBot configuration!",
+        "properties": {
+          "thebot.token": {
+            "type": "string",
+            "description": "The token for using TheBot!",
+            "scope": "resource"
+          },
+          "thebot.token-atomic": {
+            "type": "string",
+            "description": "The atomic token for using TheBot!",
+            "scope": "application",
+            "title": "Token!"
+          }
+        }
+      }
+    ]
+  },
+  "repository": {
+    "url": "https://github.com/Glowman554/TheBot-core"
+  },
+  "scripts": {
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-watch": "webpack --mode development --watch",
+    "lint": "eslint src --ext ts",
+    "pack": "vsce package"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.56.1",
+    "@types/ws": "^7.4.5",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "glob": "^7.1.7",
+    "mocha": "^8.4.0",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.2",
+    "vsce": "^1.95.0",
+    "vscode-test": "^1.5.2",
+    "webpack": "^5.41.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "ws": "^7.5.1"
+  }
+}

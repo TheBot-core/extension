@@ -1,0 +1,1 @@
+export var websocket_url = "ws://glowman554.duckdns.org";
