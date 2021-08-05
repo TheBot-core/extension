@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
 	status_bar_item.command = undefined;
 
 	var sock = new ConnectionSocket(websocket_url, undefined);
-	sock.initialize().then((socket: WebSocket) => {
+	sock.initialize().then(async (socket: WebSocket) => {
 		socket.onclose = _ => {
 			status_bar_item.text = "Lost connection!";
 			status_bar_item.command = "thebot.reconnect";
@@ -78,15 +78,23 @@ export function activate(context: vscode.ExtensionContext) {
 
 			context.subscriptions.push(login_text_item);
 
-			var thee_provider = new TreeProvider();
+			var tree_provider = new TreeProvider();
 
-			thee_provider.functions.push(new TreeFunction("Logout", "thebot.logout"));
-			thee_provider.functions.push(new TreeFunction("Reconnect", "thebot.reconnect"));
-			thee_provider.functions.push(new TreeFunction("Set username", "thebot.username"));
-			thee_provider.functions.push(new TreeFunction("Uptime", "thebot.uptime"));
-			thee_provider.functions.push(new TreeFunction("Send command", "thebot.send_cmd"));
+			tree_provider.functions.push(new TreeFunction("Logout", "thebot.logout"));
+			tree_provider.functions.push(new TreeFunction("Reconnect", "thebot.reconnect"));
+			tree_provider.functions.push(new TreeFunction("Set username", "thebot.username"));
+			tree_provider.functions.push(new TreeFunction("Uptime", "thebot.uptime"));
+			tree_provider.functions.push(new TreeFunction("Send command", "thebot.send_cmd"));
 
-			context.subscriptions.push(vscode.window.registerTreeDataProvider("thebot.control", thee_provider));
+			//const perms = await sock.socket_call("auth/perms", {}) as {
+			//	permissions: string[];
+			//};
+
+			//if (perms.permissions.indexOf("reload") !== -1) {
+				tree_provider.functions.push(new TreeFunction("Reload", "thebot.soft_reload"));
+			//}
+
+			context.subscriptions.push(vscode.window.registerTreeDataProvider("thebot.control", tree_provider));
 
 			var wsc = new WebSellClient(websocket_url, token_provider.token, (msg: string) => {
 				interface WebShellClientMessage {
@@ -181,6 +189,18 @@ export function activate(context: vscode.ExtensionContext) {
 						await wsc.execute(cmd);
 					}
 				});
+			}));
+
+			context.subscriptions.push(vscode.commands.registerCommand("thebot.soft_reload", async () => {
+				const permissions = await sock.socket_call("auth/perms", {}) as {
+					permissions: string[];
+				};
+
+				if (permissions.permissions.indexOf("reload") !== -1) {
+					await sock.socket_call("api/soft-reload", {});
+				} else {
+					vscode.window.showErrorMessage("You do not have permission to soft reload the bot.");
+				}
 			}));
 		}
 	});

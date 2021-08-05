@@ -40,7 +40,12 @@
         "category": "TheBot",
         "command": "thebot.send_cmd",
         "title": "Send command"
-      }
+      },
+	  {
+		"categoriy": "TheBot",
+		"command": "thebot.soft_reload",
+		"title": "Send soft reload request"
+	  }
     ],
     "views": {
       "side_panel": [
