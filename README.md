@@ -24,10 +24,10 @@ You can contact me on multiple platforms:
 
 This extension helps you to improve the overall experience of using the codespace ide in multiple ways:
 
-- It let's you renew the 1 hour cap
 - It let's you send commands directly to TheBot just like `#fox`
-- It shows you with that account you are logged in
+- It shows you with what account you are logged in
 - It let's you change the username
+- It generaly helps me with the development
 
 <br>
 
